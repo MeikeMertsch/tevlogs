@@ -5,13 +5,17 @@
   (:gen-class))
 
 (defn parse-line [line]
-  (-> line
-      (string/split #" : ")
-      last
-      (json/parse-string true)))
+  (try
+    (-> line
+        (string/split #" : ")
+        last
+        (json/parse-string true))
+    (catch Exception e
+      (println (format "%s skipping line: %s" e line)))))
+
 
 (defn read-lines [file-name]
-  (with-open [rdr (io/reader file-name)]
+  (let [rdr (io/reader file-name)]
     (map parse-line (line-seq rdr))))
 
 (def example "I, [2015-10-14T09:53:22.248366 #18826]  INFO -- : {\"toilet_name\": \"male-left\", \"time\": \"2015-10-14T09:53:22.229182\", \"door_closed\": true, \"playing\": true, \"song\": \"/home/pi/Rugrats Theme Song.mp3\"}")
