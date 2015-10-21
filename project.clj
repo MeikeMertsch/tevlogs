@@ -5,7 +5,8 @@
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure "1.7.0"]
                  [cheshire "5.5.0"]
-                 [clj-time "0.11.0"]]
+                 [clj-time "0.11.0"]
+                 [camel-snake-kebab "0.3.2"]]
   :main ^:skip-aot tevlogs.core
   :target-path "target/%s"
   :profiles {:uberjar {:aot :all}})
