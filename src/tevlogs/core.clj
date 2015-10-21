@@ -1,15 +1,19 @@
 (ns tevlogs.core
   (:require [clojure.java.io :as io]
             [clojure.string :as string]
-            [cheshire.core :as json])
+            [cheshire.core :as json]
+            [clj-time.format :as f])
   (:gen-class))
+
+(def datetime-formatter (f/formatters :date-hour-minute-second-fraction))
 
 (defn parse-line [line]
   (try
     (-> line
         (string/split #" : ")
         last
-        (json/parse-string true))
+        (json/parse-string true)
+        (update :time #(f/parse datetime-formatter %)))
     (catch Exception e
       (println (format "%s skipping line: %s" e line)))))
 
@@ -22,7 +26,7 @@
 
 (parse-line example)
 (read-lines "/Users/djastin/Downloads/events-state.log")
-
+(f/show-formatters)
 
 (defn -main
   "I don't do a whole lot ... yet."
