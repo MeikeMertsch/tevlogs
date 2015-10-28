@@ -11,11 +11,14 @@
 
 (defn parse-line [line]
   (try
-    (-> line
-        (string/split #" : ")
-        last
-        (json/parse-string true)
-        (update :time #(f/parse datetime-formatter %)))
+    (->> (-> line
+             (string/split #" : ")
+             last
+             (json/parse-string true)
+             (update :time #(f/parse datetime-formatter %)))
+         (mapcat (fn [[k v]] [(->kebab-case k) v]))
+         (apply hash-map))
+
     (catch Exception e
       (println (format "%s skipping line: %s" e line)))))
 
@@ -38,8 +41,9 @@
 
 (defn x [lines]
   (->> lines
-       (group-by :toilet-name
+       (group-by :toilet-name)))
 
+(x (take 50 (read-lines "/Users/djastin/Downloads/events-state.log")))
 (distribution-by-weekday (read-lines "/Users/djastin/Downloads/events-state.log"))
 
 (f/show-formatters)
@@ -47,9 +51,5 @@
 (let [datetime (f/parse datetime-formatter "2015-10-14T09:53:22.229182")]
   (t/day-of-week datetime))
 
-(defn -main
-  "I don't do a whole lot ... yet."
-  [& args]
-  (println "Hello, World!"))
 
 
