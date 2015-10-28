@@ -43,7 +43,15 @@
   (->> lines
        (group-by :toilet-name)))
 
-(x (take 50 (read-lines "/Users/djastin/Downloads/events-state.log")))
+
+(->> (read-lines "/Users/djastin/Downloads/events-state.log")
+     (take 50)
+     x
+     (#(get % "male-left"))
+     (partition-by :door-closed)
+     (take 3)
+     last)
+
 (distribution-by-weekday (read-lines "/Users/djastin/Downloads/events-state.log"))
 
 (f/show-formatters)
