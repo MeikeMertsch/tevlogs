@@ -39,18 +39,35 @@
        (mapcat (fn [[day events]] [day (count events)]))
        (apply hash-map)))
 
-(defn x [lines]
+(defn ->visits [events]
+  (->> events
+       (drop-while (comp not :door-closed))
+       (partition-by :door-closed)
+       (partition-all 2)
+       (map flatten)))
+
+(defn process [lines]
   (->> lines
-       (group-by :toilet-name)))
+       (group-by :toilet-name)
+       (mapcat (fn [[toilet-name events]] [toilet-name (->visits events)]))
+       (apply hash-map)))
 
 
 (->> (read-lines "/Users/djastin/Downloads/events-state.log")
      (take 50)
      x
      (#(get % "male-left"))
+     (drop-while (comp not :door-closed))
      (partition-by :door-closed)
-     (take 3)
-     last)
+     (partition-all 2)
+     first
+     flatten)
+
+(-> (->> (read-lines "/Users/djastin/Downloads/events-state.log")
+             (take 50)
+             process)
+    (get "male-left")
+    first)
 
 (distribution-by-weekday (read-lines "/Users/djastin/Downloads/events-state.log"))
 
