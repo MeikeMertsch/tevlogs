@@ -1,36 +1,15 @@
 # tevlogs
 
-FIXME: description
+tevlogs is short for toilet event logs. Yes.
 
-## Installation
+It's a parser for the event logs created by our toilet set up at work; we write it in the Clojure Lunches together to play a bit with Clojure.
 
-Download from http://example.com/FIXME.
 
-## Usage
 
-FIXME: explanation
-
-    $ java -jar tevlogs-0.1.0-standalone.jar [args]
-
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
-
-### Bugs
-
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
 
 ## License
 
-Copyright © 2015 FIXME
+Copyright © 2015 Magine AB, Stockholm
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
