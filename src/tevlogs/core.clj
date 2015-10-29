@@ -8,6 +8,8 @@
   (:gen-class))
 
 (def datetime-formatter (f/formatters :date-hour-minute-second-fraction))
+(def log-file "resources/events-state.log")
+
 
 (defn parse-line [line]
   (try
@@ -53,7 +55,7 @@
        (apply hash-map)))
 
 
-(->> (read-lines "/Users/djastin/Downloads/events-state.log")
+(->> (read-lines log-file)
      (take 50)
      x
      (#(get % "male-left"))
@@ -63,13 +65,14 @@
      first
      flatten)
 
-(-> (->> (read-lines "/Users/djastin/Downloads/events-state.log")
+(-> (->> (read-lines log-file)
              (take 50)
              process)
     (get "male-left")
     first)
 
-(distribution-by-weekday (read-lines "/Users/djastin/Downloads/events-state.log"))
+
+(distribution-by-weekday (read-lines log-file))
 
 (f/show-formatters)
 
